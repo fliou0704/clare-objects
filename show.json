@@ -1,6 +1,6 @@
 {
   "title": "The Lives of Objects",
-  "subtitle": "Original artworks \u00b7 New York City \u00b7 Prices in USD",
+  "subtitle": "",
   "currency": "USD",
   "price_field": "price_usd",
   "qr_image": "./qr-code.png"

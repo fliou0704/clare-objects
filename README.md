@@ -14,7 +14,7 @@ Edit show.json to change the exhibit title, subtitle, currency, price field, or 
 
 ## Printable list and QR
 
-The printable catalog retains the previous exhibition's 12-point text and uniform rows, ascending SKU order, repeated headings, and page numbers. The current 47 artworks fit into three balanced A4 pages. Select A4 paper, 100% scale, and disable the browser's own headers and footers.
+The printable catalog retains the previous exhibition's 12-point text and uniform rows, ascending SKU order, repeated headings, and page numbers. The current 47 artworks fit into three A4 pages, filling each page before starting the next. Select A4 paper, 100% scale, and disable the browser's own headers and footers.
 
 The QR at the top right is a clearly labeled, non-scannable placeholder. When the final URL is known, replace **qr-code.png** in the repository root with your new PNG QR image and commit. Keep the exact filename; no code or settings edits are needed. The print action requests a fresh QR image each time.
 

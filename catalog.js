@@ -45,22 +45,25 @@ async function printList(){
  if(qrURL)qrURL.searchParams.set('v',Date.now().toString());
  const style=`
  @page{size:A4 portrait;margin:12mm}
- *{box-sizing:border-box}body{margin:0;background:#eeeae3;color:#26362d;font:12pt/1 Arial,sans-serif}
+ *{box-sizing:border-box}body{margin:0;background:#ede7f2;color:#352b40;font:12pt/1 Arial,sans-serif}
  .print-page{width:186mm;min-height:272mm;margin:12mm auto;padding:0;background:white;display:flex;flex-direction:column;break-after:page}
  .print-page:last-child{break-after:auto}.print-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:8mm;margin-bottom:4mm;break-inside:avoid}
- h1{font:24pt Georgia,serif;margin:0 0 2mm}p{margin:0}.subtitle{font-size:12pt;color:#526254}.qr-block{margin:0;flex:none}.qr-block img{display:block;width:28mm;height:28mm}
- .continuation{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #9aa79c;padding-bottom:3mm;margin-bottom:3mm}.continuation strong{font:15pt Georgia,serif}.continuation span{font-size:12pt;color:#526254}
- table{border-collapse:collapse;table-layout:fixed;width:100%}thead{display:table-header-group}th{text-align:left;font-size:12pt;letter-spacing:.02em;color:#4d6152;background:#eef1eb;border-bottom:1px solid #a9b5a9;padding:5px 4px}
- tbody tr{height:10mm}td{padding:2px 4px;border-bottom:1px solid #dce1d8;vertical-align:middle;overflow-wrap:break-word}tr{break-inside:avoid}tbody tr:nth-child(even){background:#f6f7f3}
+ h1{font:24pt Georgia,serif;margin:0 0 2mm}p{margin:0}.subtitle{font-size:12pt;color:#6b5c78}.qr-block{margin:0;flex:none}.qr-block img{display:block;width:28mm;height:28mm}
+ .continuation{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #a08bb3;padding-bottom:3mm;margin-bottom:3mm}.continuation strong{font:15pt Georgia,serif}.continuation span{font-size:12pt;color:#6b5c78}
+ table{border-collapse:collapse;table-layout:fixed;width:100%}thead{display:table-header-group}th{text-align:left;font-size:12pt;letter-spacing:.02em;color:#655276;background:#ede7f2;border-bottom:1px solid #b9a8c8;padding:5px 4px}
+ tbody tr{height:10mm}td{padding:2px 4px;border-bottom:1px solid #ded4e6;vertical-align:middle;overflow-wrap:break-word}tr{break-inside:avoid}tbody tr:nth-child(even){background:#f7f4fa}
  .sku{width:9%;white-space:nowrap;font-weight:bold}.title{width:45%}.medium{width:6%}.size{width:13%}.price{width:14%;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
- .page-footer{display:flex;justify-content:space-between;margin-top:auto;padding-top:3mm;color:#526254;font-size:12pt}.print-status{color:#9b3025;padding:4mm}
+ .page-footer{display:flex;justify-content:space-between;margin-top:auto;padding-top:3mm;color:#6b5c78;font-size:12pt}.print-status{color:#9b3025;padding:4mm}
  @media print{body{background:white}.print-page{margin:0;width:100%;box-shadow:none}th,tbody tr:nth-child(even){-webkit-print-color-adjust:exact;print-color-adjust:exact}}
  `;
  const sorted=[...shown].sort(compareSKU);
- // Reserve extra room for the QR header on page one; keep every artwork together.
+ // Fill each page in SKU order, allowing extra space for the first-page QR heading.
  const pages=[];
- const pageCount=sorted.length<=22?1:1+Math.ceil((sorted.length-22)/24);const perPage=Math.ceil(sorted.length/pageCount);
- for(let offset=0;offset<sorted.length;){const count=offset===0?sorted.length-perPage*(pageCount-1):perPage;pages.push(sorted.slice(offset,offset+count));offset+=count;}
+ for(let offset=0;offset<sorted.length;){
+  const capacity=offset===0?22:24;
+  pages.push(sorted.slice(offset,offset+capacity));
+  offset+=capacity;
+ }
  const tableHead='<thead><tr><th class="sku">SKU</th><th class="title">Artwork</th><th class="medium">Med</th><th class="size">Unframed</th><th class="size">Framed</th><th class="price">'+e(show.currency)+'</th></tr></thead>';
  const sections=pages.map((page,index)=>{
   const heading=index===0?'<div class="print-heading"><div><h1>Clare Stokolosa</h1><p class="subtitle">'+e(show.title)+' · Prices in '+e(show.currency)+'<br>Dimensions in inches · Listed by SKU</p></div>'+(qrURL?'<figure class="qr-block"><img id="catalog-qr" src="'+e(qrURL.href)+'" alt="Scan to view the artwork catalog"></figure>':'')+'</div>':'<div class="continuation"><strong>Clare Stokolosa · '+e(show.title)+'</strong><span>Dimensions in inches · '+e(show.currency)+'</span></div>';
@@ -90,7 +93,7 @@ async function loadCatalog(){
   const config=await configResponse.json();
   if(!config||typeof config.title!=='string'||typeof config.subtitle!=='string'||!['USD','EUR','GBP'].includes(config.currency)||!['price_usd','price_eur','price_gbp'].includes(config.price_field)||typeof config.qr_image!=='string')throw Error('Please check show settings.');
   show={...show,...config};document.title='Clare Stokolosa | '+show.title;
-  document.querySelector('#show-title').textContent=show.title;document.querySelector('#show-subtitle').textContent=show.subtitle;
+  document.querySelector('#show-title').textContent=show.title;document.querySelector('#show-subtitle').textContent=show.subtitle;document.querySelector('#show-subtitle').hidden=!show.subtitle.trim();
   const response=await fetch('./artworks.json',{cache:'no-store'});
   if(!response.ok)throw Error('Could not load artwork list.');
   const rows=await response.json();
