@@ -1,47 +1,31 @@
-# Clare Stokolosa — Objects
+# Clare Stokolosa — The Lives of Objects
 
-Empty starter for a new exhibition catalog. No artworks from the Italy catalog are included.
+Exhibition catalog and printable price list for New York City. Both views use the same 47 entries in artworks.json. Prices are original USD inventory amounts, without added fees.
+
+## Edit artworks
+
+Open artworks.json on GitHub, click the pencil, edit, and commit to main. GitHub Pages updates after its deployment finishes; a hard refresh may be needed to see the latest version. No ChatGPT subscription is needed.
+
+Each artwork has a unique SKU, title, price_usd (a number without a currency symbol), medium, size_unframed, size_framed, image_url, product_url, and visible. Dimensions are in inches. Use visible: "no" to hide an entry. Upload artwork images into images/ and use a relative path such as ./images/CS061.jpg. Keep JSON punctuation intact. Do not add sold pieces or duplicate SKUs.
 
 ## Show settings
 
-Edit `show.json` on GitHub to set the title, subtitle, currency, matching price field, and optional QR image filename. EUR is a temporary default until the show details are supplied. Supported currency/field pairs are EUR/price_eur, USD/price_usd, and GBP/price_gbp.
+Edit show.json to change the exhibit title, subtitle, currency, price field, or QR filename. This show uses USD and price_usd. Search supports titles and SKUs; sorting defaults to numeric SKU order. The print button prints the full catalog regardless of search results.
 
-## Artworks
+## Printable list and QR
 
-Edit `artworks.json` on GitHub and commit to main. The website and printable list share this file; no ChatGPT subscription is required to edit it. It currently contains an empty list. Each artwork needs a unique SKU. Set visible to "yes" to display it or "no" to hide it.
+The printable catalog retains the previous exhibition's 12-point text and uniform rows, ascending SKU order, repeated headings, and page numbers. The current 47 artworks fit into three balanced A4 pages. Select A4 paper, 100% scale, and disable the browser's own headers and footers.
 
-Example structure (do not publish this placeholder as a real artwork):
+The QR at the top right is a clearly labeled, non-scannable placeholder. When the final URL is known, replace **qr-code.png** in the repository root with your new PNG QR image and commit. Keep the exact filename; no code or settings edits are needed. The print action requests a fresh QR image each time.
 
-```json
-{
-  "sku": "CS000",
-  "title": "Artwork title",
-  "price_usd": null,
-  "price_eur": null,
-  "price_gbp": null,
-  "medium": "Watercolor",
-  "size_unframed": "5 x 7",
-  "size_framed": "7 x 9",
-  "image_url": "./images/CS000.jpg",
-  "product_url": "https://clarestokolosa.com/",
-  "visible": "yes"
-}
-```
+## GitHub Pages and moving to Clare's account
 
-Dimensions are in inches. Prices are numbers, without currency symbols. Verify prices and availability against Clare's website before publishing. Do not add sold pieces or duplicate SKUs.
+In Settings → Pages, select Deploy from a branch, main, and / (root), then Save. The expected project address is https://fliou0704.github.io/clare-objects/ after deployment succeeds.
 
-## GitHub Pages
+Copy all project files into a repository on Clare's account and enable Pages there. Relative paths keep this catalog portable. Generate a new QR for her final address and replace qr-code.png. Updates to separate repository copies are independent.
 
-In Settings → Pages, choose Deploy from a branch, main, and / (root), then Save. The expected project address is https://fliou0704.github.io/clare-objects/ once Pages is enabled and deployment succeeds. Search supports titles and SKUs; sorting defaults to numeric SKU order.
+## Images and review notes
 
-The print button stays disabled while there are no artworks. The printable catalog uses 12-point text, uniform rows, numeric SKU order, and repeated headings. Check print preview after adding artworks, especially long titles. Search never removes entries from the full printed list.
+The purple signature is clare-logo.png. Artwork images are display-size copies. Right-click, touch saving, and dragging are discouraged on artwork images, but screenshots and direct-file access remain possible.
 
-## QR and moving to Clare's account
-
-Leave qr_image empty until the final hosting URL is known. Upload a PNG QR image to this repository, then set qr_image in show.json to its relative filename. The print list can work without a QR and requests a fresh image each time once one is configured.
-
-Copy the whole project into a repository on Clare's account, enable Pages there, and generate a QR for that final URL. Relative file paths keep the catalog portable. Updates to separate copies are independent.
-
-## Images
-
-Upload display images to images/. Right-click and dragging are discouraged on artwork images, but public images cannot be made download-proof. Screenshots and direct-file access remain possible. Do not upload original inventory spreadsheets or private notes.
+CS148, CS346, CS379, and CS522 use inventory details because they were not returned by the current public shop feed. Confirm their availability before the show. Dimensions for CS358 and CS370 were absent from both sources and are left blank. Do not upload original inventory spreadsheets or private notes.
